@@ -45,7 +45,7 @@ namespace AspNetCoreApp.Web.Controllers
                     Job = "Yazılımcı",
                     Name = userSign.Name,
                     Surname = userSign.Surname,
-                    IdentityNumber = "12345678912",
+                    IdentityNumber = "12345678913",
                     Email = userSign.Mail,
                     UserName = userSign.UserName
                 };

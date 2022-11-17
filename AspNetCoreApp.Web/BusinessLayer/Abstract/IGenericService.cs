@@ -26,6 +26,7 @@ namespace BusinessLayer.Abstract
         T GetByDefault(Expression<Func<T, bool>> exp);
         List<T> GetActive();
         bool Activate(int id);
+        List<T> GetDefault(Expression<Func<T, bool>> exp);
         bool Any(Expression<Func<T, bool>> exp);
 
       

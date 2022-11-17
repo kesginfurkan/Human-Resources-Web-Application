@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.Concrete
 {
-    public class GenericManager<T> : IGenericService<T> where T :class, BaseEntity
+    public class GenericManager<T> : IGenericService<T> where T :class, IBaseEntity
     {
         private readonly IGENERICDAL<T> _repository;
         public GenericManager(IGENERICDAL<T> repository)
@@ -49,6 +49,12 @@ namespace BusinessLayer.Concrete
         {
             return _repository.GetById(id);
         }
+
+        public List<T> GetDefault(Expression<Func<T, bool>> exp)
+        {
+            return _repository.GetDefault(exp);
+        }
+
 
         public List<T> GetListAll()
         {

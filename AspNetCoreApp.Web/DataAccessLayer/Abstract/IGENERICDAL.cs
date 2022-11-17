@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Abstract
 {
-    public interface IGENERICDAL<T> where T :class, BaseEntity
+    public interface IGENERICDAL<T> where T : IBaseEntity
     {
         T GetById(int id);
         List<T> GetListAll();
@@ -24,6 +24,8 @@ namespace DataAccessLayer.Abstract
         List<T> GetActive();
         bool Activate(int id);
         bool Any(Expression<Func<T, bool>> exp);
+
+        List<T> GetDefault(Expression<Func<T, bool>> exp);
         int Save();
 
     }

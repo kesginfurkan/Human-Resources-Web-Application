@@ -1,6 +1,7 @@
 ﻿using CoreLayer.Entities;
 using DataAccessLayer.Abstract;
 using DataAccessLayer.Concrete;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ using System.Transactions;
 
 namespace DataAccessLayer.Repositories
 {
-    public class GenericRepository<T> :IGENERICDAL<T> where T :class, BaseEntity
+    public class GenericRepository<T> :IGENERICDAL<T> where T :class, IBaseEntity
     {
         private readonly Context _dbContext;
 
@@ -41,6 +42,12 @@ namespace DataAccessLayer.Repositories
         {
             return _dbContext.Set<T>().FirstOrDefault(exp);
         }
+
+        public List<T> GetDefault(Expression<Func<T, bool>> exp)
+        {
+            return _dbContext.Set<T>().Where(exp).ToList();
+        }
+
 
         public T GetById(int id)
         {
@@ -83,8 +90,8 @@ namespace DataAccessLayer.Repositories
 
         public bool Remove(T t)
         {
-            t.Status = false;
-            return Update(t);
+           _dbContext.Remove(t);
+            return Save() > 0;
         }
 
         public bool Remove(int id)

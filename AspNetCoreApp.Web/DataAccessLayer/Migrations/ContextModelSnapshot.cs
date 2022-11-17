@@ -32,7 +32,7 @@ namespace DataAccessLayer.Migrations
                     b.Property<int>("Approval")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("ApprovalDate")
+                    b.Property<DateTime?>("ApprovalDate")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("CreationDate")
@@ -45,6 +45,9 @@ namespace DataAccessLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ManagerId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("PersonnelID")
                         .HasColumnType("nvarchar(450)");
 
@@ -52,6 +55,8 @@ namespace DataAccessLayer.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("ManagerId");
 
                     b.HasIndex("PersonnelID");
 
@@ -74,6 +79,235 @@ namespace DataAccessLayer.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Departments");
+                });
+
+            modelBuilder.Entity("CoreLayer.Entities.Expense", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Approval")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("ApprovalDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Currency")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("ExpenseAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Invoce")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ManagerId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("PersonnelID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("TypeOfExpenses")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("ManagerId");
+
+                    b.HasIndex("PersonnelID");
+
+                    b.ToTable("Expenses");
+                });
+
+            modelBuilder.Entity("CoreLayer.Entities.Manager", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("BirthDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("DepartmentID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("HireDate")
+                        .IsUnicode(true)
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("IdentityNumber")
+                        .IsRequired()
+                        .HasMaxLength(11)
+                        .IsUnicode(false)
+                        .HasColumnType("char(11)")
+                        .IsFixedLength(true);
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Job")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("MiddleName")
+                        .HasMaxLength(50)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("PlaceOfBirth")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime?>("ReleaseDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal?>("Salary")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("SecondSurname")
+                        .HasMaxLength(50)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Surname")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DepartmentID");
+
+                    b.HasIndex("IdentityNumber")
+                        .IsUnique()
+                        .HasDatabaseName("INDX_Personnel_IdentityNumber");
+
+                    b.ToTable("Managers");
+                });
+
+            modelBuilder.Entity("CoreLayer.Entities.Permit", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Approval")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("ApprovalDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ManagerId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("PermitDay")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PermitTypes")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PersonnelID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("RequestDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("ManagerId");
+
+                    b.HasIndex("PersonnelID");
+
+                    b.ToTable("Permits");
                 });
 
             modelBuilder.Entity("CoreLayer.Entities.Personnel", b =>
@@ -352,8 +586,47 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("CoreLayer.Entities.Advance", b =>
                 {
+                    b.HasOne("CoreLayer.Entities.Manager", null)
+                        .WithMany("Advances")
+                        .HasForeignKey("ManagerId");
+
                     b.HasOne("CoreLayer.Entities.Personnel", "Personnel")
                         .WithMany("Advances")
+                        .HasForeignKey("PersonnelID");
+
+                    b.Navigation("Personnel");
+                });
+
+            modelBuilder.Entity("CoreLayer.Entities.Expense", b =>
+                {
+                    b.HasOne("CoreLayer.Entities.Manager", null)
+                        .WithMany("Expenses")
+                        .HasForeignKey("ManagerId");
+
+                    b.HasOne("CoreLayer.Entities.Personnel", "personnel")
+                        .WithMany("Expenses")
+                        .HasForeignKey("PersonnelID");
+
+                    b.Navigation("personnel");
+                });
+
+            modelBuilder.Entity("CoreLayer.Entities.Manager", b =>
+                {
+                    b.HasOne("CoreLayer.Entities.Department", "Department")
+                        .WithMany("Managers")
+                        .HasForeignKey("DepartmentID");
+
+                    b.Navigation("Department");
+                });
+
+            modelBuilder.Entity("CoreLayer.Entities.Permit", b =>
+                {
+                    b.HasOne("CoreLayer.Entities.Manager", null)
+                        .WithMany("Permits")
+                        .HasForeignKey("ManagerId");
+
+                    b.HasOne("CoreLayer.Entities.Personnel", "Personnel")
+                        .WithMany("Permits")
                         .HasForeignKey("PersonnelID");
 
                     b.Navigation("Personnel");
@@ -421,12 +694,27 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("CoreLayer.Entities.Department", b =>
                 {
+                    b.Navigation("Managers");
+
                     b.Navigation("Personnels");
+                });
+
+            modelBuilder.Entity("CoreLayer.Entities.Manager", b =>
+                {
+                    b.Navigation("Advances");
+
+                    b.Navigation("Expenses");
+
+                    b.Navigation("Permits");
                 });
 
             modelBuilder.Entity("CoreLayer.Entities.Personnel", b =>
                 {
                     b.Navigation("Advances");
+
+                    b.Navigation("Expenses");
+
+                    b.Navigation("Permits");
                 });
 #pragma warning restore 612, 618
         }

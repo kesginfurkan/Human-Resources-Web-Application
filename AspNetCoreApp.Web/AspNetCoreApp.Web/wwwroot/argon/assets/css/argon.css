@@ -16,6 +16,8 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
+
+
 :root
 {
     --blue: #5e72e4;
@@ -18223,6 +18225,13 @@ a.text-darker:focus
     color: #fff;
 }
 
+.styledimg {
+    background-image: url(/images/man_default.png);
+    background-repeat: no-repeat;
+    width:240px;
+    height: 180px;
+}
+
 .badge-secondary
 {
     color: #212529; 
@@ -19870,7 +19879,7 @@ a.btn-icon-only
 {
     font-size: .875rem; 
 
-    padding: .5rem 1rem;
+    padding: .5rem 2rem;
 }
 .dropdown-menu .dropdown-item > i,
 .dropdown-menu .dropdown-item > svg
@@ -21119,7 +21128,7 @@ textarea[resize='horizontal']
     {
         position: relative;
 
-        padding: 1rem;
+        padding: 0.1rem;
     }
 }
 

@@ -3,6 +3,7 @@ using BusinessLayer.Concrete;
 using CoreLayer.Entities;
 using DataAccessLayer.Abstract;
 using DataAccessLayer.Concrete;
+using DataAccessLayer.EntityFramework;
 using DataAccessLayer.Repositories;
 using DataAccessLayer.SeedData;
 using Microsoft.AspNetCore.Builder;
@@ -34,16 +35,6 @@ namespace AspNetCoreApp.Web
         {
             services.AddDbContext<Context>(options => options.UseSqlServer("Server = tcp:easyhr21.database.windows.net, 1433; Initial Catalog = IKPROJELOCAL1; Persist Security Info = False; User ID = easyhr21; Password =Kanrascal_1; MultipleActiveResultSets = False; Encrypt = True; TrustServerCertificate = False; Connection Timeout = 30;"));
 
-            //services.AddIdentity<AppUser, AppRole>(x =>
-            //{
-            //    x.Password.RequireDigit = true;
-            //    x.Password.RequiredLength = 4;
-            //    x.Password.RequireLowercase = true;
-            //    x.Password.RequireNonAlphanumeric = false;
-            //    x.Password.RequireUppercase = true;
-            //})
-            //    .AddEntityFrameworkStores<Context>()
-            //    .AddDefaultTokenProviders();
 
             services.AddIdentity<Personnel,IdentityRole>(x =>
                 {
@@ -52,12 +43,27 @@ namespace AspNetCoreApp.Web
                 })
                 .AddEntityFrameworkStores<Context>();
 
-
+            
             services.AddAuthentication();
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddTransient(typeof(IGENERICDAL<>), typeof(GenericRepository<>));
             services.AddTransient(typeof(IGenericService<>), typeof(GenericManager<>));
+
+            services.AddTransient<IExpenseDal, EFExpenseRepository>();
+            services.AddTransient<IExpenseService, ExpenseManager>();
+
+            services.AddTransient<IAdvanceDal, EFAdvanceRepository>();
+            services.AddTransient<IAdvanceService, AdvanceManager>();
+
+            services.AddTransient<IPermitDal, EFPermitRepository>();
+            services.AddTransient<IPermitService, PermitManager>();
+
+            services.AddTransient<IPersonnelDal, EFPersonnelRepository>();
+            services.AddTransient<IPersonnelService, PersonnelManager>();
+
+
+
 
         }
 
@@ -79,8 +85,8 @@ namespace AspNetCoreApp.Web
 
             app.UseRouting();
 
-            SeedData.Seed(app);
-
+            //SeedData.Seed(app);
+            
             app.UseAuthentication();
             app.UseAuthorization();
 
@@ -90,7 +96,11 @@ namespace AspNetCoreApp.Web
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Login}/{action=Index}/{id?}");
+
+                endpoints.MapControllers();
             });
+
+            
         }
     }
 }
