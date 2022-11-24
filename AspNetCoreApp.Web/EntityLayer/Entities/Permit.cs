@@ -42,9 +42,11 @@ namespace CoreLayer.Entities
         [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = false)]
         public DateTime? ApprovalDate { get; set; }
 
+        [Display(Name = "Yönetici Açıklaması")]
+        public string ManagerDescription { get; set; }
+
         public string PersonnelID { get; set; }
         public Personnel Personnel { get; set; }
-        //[Display(Name = "Toplam İzin Süresi")]
-        //public string TotalDayOfPermissionType { get; set; }
+        
     }
 }

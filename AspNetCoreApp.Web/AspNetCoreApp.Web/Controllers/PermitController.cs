@@ -2,6 +2,7 @@
 using BusinessLayer.Abstract;
 using CoreLayer.Entities;
 using CoreLayer.VM;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace AspNetCoreApp.Web.Controllers
 {
+    [Authorize(Roles = "Personel,Manager")]
     public class PermitController : Controller
     {
         private readonly IGenericService<Permit> _permitService;

@@ -1,4 +1,5 @@
 ﻿using CoreLayer.Entities;
+using CoreLayer.Enums;
 using DataAccessLayer.Abstract;
 using DataAccessLayer.Concrete;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +28,19 @@ namespace DataAccessLayer.Repositories
             activated.Status = true;
             return Update(activated);
         }
+        
+        //public bool Approved(int id)
+        //{
+        //    T approved = GetById(id);
+        //    approved.Approval = Approval.Onaylandı;
+        //    return Update(approved);
+        //}
+        //public bool Rejected(int id)
+        //{
+        //    T approved = GetById(id);
+        //    approved.Approval = Approval.Reddedildi;
+        //    return Update(approved);
+        //}
 
         public bool Any(Expression<Func<T, bool>> exp)
         {
@@ -164,5 +178,7 @@ namespace DataAccessLayer.Repositories
                 return false;
             }
         }
+
+       
     }
 }

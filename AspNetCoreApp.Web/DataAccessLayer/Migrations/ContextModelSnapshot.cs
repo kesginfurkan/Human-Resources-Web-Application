@@ -45,6 +45,9 @@ namespace DataAccessLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ManagerDescription")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ManagerId")
                         .HasColumnType("nvarchar(450)");
 
@@ -61,6 +64,49 @@ namespace DataAccessLayer.Migrations
                     b.HasIndex("PersonnelID");
 
                     b.ToTable("Advances");
+                });
+
+            modelBuilder.Entity("CoreLayer.Entities.Company", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Address")
+                        .HasMaxLength(250)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<int>("CompanyType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LogoPath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Mail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("PersonnelAmount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Companies");
                 });
 
             modelBuilder.Entity("CoreLayer.Entities.Department", b =>
@@ -110,6 +156,9 @@ namespace DataAccessLayer.Migrations
                     b.Property<string>("Invoce")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ManagerDescription")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ManagerId")
                         .HasColumnType("nvarchar(450)");
 
@@ -144,6 +193,9 @@ namespace DataAccessLayer.Migrations
 
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("CompanyID")
+                        .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
                         .HasColumnType("nvarchar(max)");
@@ -252,6 +304,8 @@ namespace DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CompanyID");
+
                     b.HasIndex("DepartmentID");
 
                     b.HasIndex("IdentityNumber")
@@ -275,10 +329,14 @@ namespace DataAccessLayer.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("ManagerDescription")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ManagerId")
                         .HasColumnType("nvarchar(450)");
@@ -323,6 +381,9 @@ namespace DataAccessLayer.Migrations
 
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("CompanyID")
+                        .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -370,6 +431,9 @@ namespace DataAccessLayer.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<string>("ManagerId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("MiddleName")
                         .HasMaxLength(50)
                         .IsUnicode(true)
@@ -436,11 +500,15 @@ namespace DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CompanyID");
+
                     b.HasIndex("DepartmentID");
 
                     b.HasIndex("IdentityNumber")
                         .IsUnique()
                         .HasDatabaseName("INDX_Personnel_IdentityNumber");
+
+                    b.HasIndex("ManagerId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -612,9 +680,15 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("CoreLayer.Entities.Manager", b =>
                 {
+                    b.HasOne("CoreLayer.Entities.Company", "Company")
+                        .WithMany("Managers")
+                        .HasForeignKey("CompanyID");
+
                     b.HasOne("CoreLayer.Entities.Department", "Department")
                         .WithMany("Managers")
                         .HasForeignKey("DepartmentID");
+
+                    b.Navigation("Company");
 
                     b.Navigation("Department");
                 });
@@ -634,9 +708,17 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("CoreLayer.Entities.Personnel", b =>
                 {
+                    b.HasOne("CoreLayer.Entities.Company", null)
+                        .WithMany("Personnels")
+                        .HasForeignKey("CompanyID");
+
                     b.HasOne("CoreLayer.Entities.Department", "Department")
                         .WithMany("Personnels")
                         .HasForeignKey("DepartmentID");
+
+                    b.HasOne("CoreLayer.Entities.Manager", null)
+                        .WithMany("Personnels")
+                        .HasForeignKey("ManagerId");
 
                     b.Navigation("Department");
                 });
@@ -692,6 +774,13 @@ namespace DataAccessLayer.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("CoreLayer.Entities.Company", b =>
+                {
+                    b.Navigation("Managers");
+
+                    b.Navigation("Personnels");
+                });
+
             modelBuilder.Entity("CoreLayer.Entities.Department", b =>
                 {
                     b.Navigation("Managers");
@@ -706,6 +795,8 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("Expenses");
 
                     b.Navigation("Permits");
+
+                    b.Navigation("Personnels");
                 });
 
             modelBuilder.Entity("CoreLayer.Entities.Personnel", b =>

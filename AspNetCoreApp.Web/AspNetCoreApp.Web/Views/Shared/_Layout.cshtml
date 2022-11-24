@@ -21,91 +21,129 @@
 
 </head>
 <body>
-	<nav class="navbar navbar-top navbar-expand navbar-dark bg-default border-bottom">
+    <nav class="navbar navbar-top navbar-expand navbar-dark bg-default border-bottom">
 
-		<div class="ml-2">
+        <div class="ml-2">
 
-			<a asp-controller="Personnel" asp-action="Index"><img src="~/images/icon.png" alt="Alternate Text" /></a>
-		</div>
-		
-		<div class="dropdown ml-5">
-			<button class="btn btn-outline-info dropdown-toggle" style="border-style:none" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				AVANS
-			</button>
-			<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-				<a asp-controller="Advance" asp-action="Index" class="dropdown-item"><span> Avansları Listele </span></a>
-				<a asp-controller="Advance" asp-action="Add" class="dropdown-item"><span> Avans Ekle </span></a>
-			</div>
+            <a asp-controller="Personnel" asp-action="Index"><img src="~/images/icon.png" alt="Alternate Text" /></a>
+        </div>
+        @if(User.IsInRole("Personel")){
+        <div class="dropdown ml-5">
+            <button class="btn btn-outline-info dropdown-toggle" style="border-style:none" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                AVANS
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a asp-controller="Advance" asp-action="Index" class="dropdown-item"><span> Avansları Listele </span></a>
+                <a asp-controller="Advance" asp-action="Add" class="dropdown-item"><span> Avans Ekle </span></a>
+            </div>
 
-		</div>
+        </div>
 
-		<div class="dropdown ml-3">
-			<button class="btn btn-outline-info dropdown-toggle" style="border-style:none" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				GİDER
-			</button>
-			<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-				<a asp-controller="Expense" asp-action="Index" class="dropdown-item"><span> Giderleri Listele </span></a>
-				<a asp-controller="Expense" asp-action="Add" class="dropdown-item"><span> Gider Ekle </span></a>
-			</div>
-		</div>
+        <div class="dropdown ml-3">
+            <button class="btn btn-outline-info dropdown-toggle" style="border-style:none" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                GİDER
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a asp-controller="Expense" asp-action="Index" class="dropdown-item"><span> Giderleri Listele </span></a>
+                <a asp-controller="Expense" asp-action="Add" class="dropdown-item"><span> Gider Ekle </span></a>
+            </div>
+        </div>
 
-		<div class="dropdown ml-3">
-			<button class="btn btn-outline-info dropdown-toggle" style="border-style:none" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				İZİN
-			</button>
-			<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-				<a asp-controller="Permit" asp-action="Index" class="dropdown-item"><span> İzinleri Listele </span></a>
-				<a asp-controller="Permit" asp-action="Add" class="dropdown-item"><span> İzin Ekle </span></a>
-			</div>
-		</div>
+        <div class="dropdown ml-3">
+            <button class="btn btn-outline-info dropdown-toggle" style="border-style:none" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                İZİN
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a asp-controller="Permit" asp-action="Index" class="dropdown-item"><span> İzinleri Listele </span></a>
+                <a asp-controller="Permit" asp-action="Add" class="dropdown-item"><span> İzin Ekle </span></a>
+            </div>
+        </div>
+        }
+        @if (User.IsInRole("Manager"))
+        {
+    <div class="dropdown ml-3">
+        <button class="btn btn-outline-info dropdown-toggle" style="border-style:none" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Personel
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a asp-controller="Manager" asp-action="Index" class="dropdown-item"><span> Personelleri Listele </span></a>
+            <a asp-controller="Manager" asp-action="CreatePersonnel" class="dropdown-item"><span> Personel Ekle </span></a>
+            <a asp-controller="Manager" asp-action="GetListAdvance" class="dropdown-item"><span> Personel Avans Listele </span></a>
+            <a asp-controller="Manager" asp-action="GetListPermit" class="dropdown-item"><span> Personel İzin Listele </span></a>
+            <a asp-controller="Manager" asp-action="GetListExpense" class="dropdown-item"><span> Personel Gider Listele </span></a>
+        </div>
+    </div>}
+    @if (User.IsInRole("admin"))
+        {
+    <div class="dropdown ml-3">
+        <button class="btn btn-outline-info dropdown-toggle" style="border-style:none" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Yönetici
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a asp-controller="Admin" asp-action="Index" class="dropdown-item"><span> Yöneticileri Listele </span></a>    
+        </div>
+    </div>
+    <div class="dropdown ml-3">
+        <button class="btn btn-outline-info dropdown-toggle" style="border-style:none" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Şirket
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a asp-controller="Admin" asp-action="ListCompanies" class="dropdown-item"><span> Şirketleri Listele </span></a>
+            <a asp-controller="Admin" asp-action="AddCompany" class="dropdown-item"><span> Şirket Ekle </span></a>
+        </div>
+    </div>
+    }
+        @if (User.IsInRole("Personel"))
+        {
+    <div class="container" style="margin-left:245px;">
+        <div class="">
+            <h2 class="text-center text-light"> EASY HR </h2>
+        </div>
+    </div>}
+        @if (User.IsInRole("Manager"))
+        {
+    <div class="container" style="margin-left:115px;">
+        <div class="">
+            <h2 class="text-center text-light"> EASY HR </h2>
+        </div>
+    </div>}
+        @ViewBag.Name
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <!-- Search form -->
 
-		<div class="container">
-			<div class="justify-content-center">
-				<h2 class="text-center text-light" style="margin-left:220px;"> EASY HR </h2>
-			</div>
-		</div>
-		@ViewBag.Name
-		<div class="container-fluid">
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<!-- Search form -->
-
-				<ul class="navbar-nav align-items-center ml-auto">
-					<li class="nav-item dropdown">
-						<a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							<div class="media align-items-center">
-								<span class="avatar avatar-sm rounded-circle">
+                <ul class="navbar-nav align-items-center ml-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <div class="media align-items-center">
 
 
-									<img alt="Profil Resmi" src="~/images/@TempData["Invoce"]">
+                                @await Component.InvokeAsync("PersonnelInformation")
 
 
-								</span>
-								<div class="media-body  ml-2  d-none d-lg-block">
-									@*<span class="mb-0 text-sm  font-weight-bold"> @Model.Name </span>*@
-								</div>
-							</div>
-						</a>
-						<div class="dropdown-menu  dropdown-menu-right ">
+                            </div>
+                        </a>
+                        <div class="dropdown-menu  dropdown-menu-right ">
 
-							<a asp-controller="Personnel" asp-action="Details" class="dropdown-item">
-								<i class="ni ni-single-02"></i>
-								<span>Bilgilerim</span>
-							</a>
-							<div class="dropdown-divider"></div>
-							<a asp-controller="Login" asp-action="LogOut" class="dropdown-item">
-								<i class="ni ni-user-run"></i>
-								<span>Çıkış</span>
-							</a>
-						</div>
-					</li>
-				</ul>
+                            <a asp-controller="Personnel" asp-action="Details" class="dropdown-item">
+                                <i class="ni ni-single-02"></i>
+                                <span>Bilgilerim</span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a asp-controller="Login" asp-action="LogOut" class="dropdown-item">
+                                <i class="ni ni-user-run"></i>
+                                <span>Çıkış</span>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
 
-				<form class="navbar-search navbar-search-light form-inline ml-4" id="navbar-search-main">
-				</form>
+                <form class="navbar-search navbar-search-light form-inline ml-4" id="navbar-search-main">
+                </form>
 
-			</div>
-		</div>
-	</nav>
+            </div>
+        </div>
+    </nav>
 
 	@RenderBody()
 
@@ -126,7 +164,7 @@
 
 	<footer class="border-top footer text-muted">
 		<div class="container ml-2">
-			&copy; 2022 - Easy HR -
+			&copy; 2022 - Easy HR 
 		</div>
 	</footer>
 

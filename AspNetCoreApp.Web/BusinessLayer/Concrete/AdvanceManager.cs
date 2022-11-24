@@ -21,9 +21,20 @@ namespace BusinessLayer.Concrete
             
         }
 
+        public bool Approved(int id)
+        {
+            return _advanceDal.Approved(id);    
+        }
+        public bool Rejected(int id)
+        {
+            return _advanceDal.Rejected(id);
+        }
+
         public List<Advance> GetListAllAdvance(string id)
         {
             return _advanceDal.GetListAllAdvance(id);
         }
+
+        
     }
 }
