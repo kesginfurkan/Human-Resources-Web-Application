@@ -10,5 +10,7 @@ namespace BusinessLayer.Abstract
     public interface ICompanyService
     {
         List<Company> GetListAllCompanies();
+
+        Company GetAllPersonelsWithCompany(int id);
     }
 }

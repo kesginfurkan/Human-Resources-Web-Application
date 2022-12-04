@@ -19,5 +19,10 @@ namespace DataAccessLayer.EntityFramework
         {
             _dbContext = dbContext;
         }
+
+        public Company GetAllPersonelsWithCompany(int id)
+        {
+            return _dbContext.Companies.Include(a => a.Personnels).FirstOrDefault(a => a.ID == id);
+        }
     }
 }

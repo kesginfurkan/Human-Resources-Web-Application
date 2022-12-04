@@ -15,7 +15,7 @@ namespace AspNetCoreApp.Web.Models
 
         public string Name { get; set; }
         public string Mail { get; set; }
-        [Required(ErrorMessage = "(Şirket telefonu girilmesi zorunludur!)")]
+       
         public string PhoneNumber { get; set; }
         [Required(ErrorMessage = "(Şirket adresi girilmesi zorunludur!)")]
         [MaxLength(250,ErrorMessage ="(Adres açıklaması en fazla 250 karakter olabilir!)")]

@@ -69,6 +69,12 @@ namespace AspNetCoreApp.Web.Controllers
                     Description = vm.Permit.Description
                 };
 
+                if (vm.Permit.StartDate <= DateTime.Now || vm.Permit.EndDate <= DateTime.Now)
+                {
+                    ViewBag.Message = "Başlangıç veya Bitiş tarihi Bügünden önce olamaz!";
+                    return View(vm);
+                }
+
                 if (vm.Permit.EndDate.Day - vm.Permit.StartDate.Day < 0)
                 {
                     ViewBag.Message = "Başlangıç tarihi Bitiş tarihinden sonra olamaz!";

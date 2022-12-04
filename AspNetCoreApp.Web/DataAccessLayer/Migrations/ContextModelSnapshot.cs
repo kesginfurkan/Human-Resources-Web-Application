@@ -98,7 +98,6 @@ namespace DataAccessLayer.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Status")
@@ -708,7 +707,7 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("CoreLayer.Entities.Personnel", b =>
                 {
-                    b.HasOne("CoreLayer.Entities.Company", null)
+                    b.HasOne("CoreLayer.Entities.Company", "Company")
                         .WithMany("Personnels")
                         .HasForeignKey("CompanyID");
 
@@ -719,6 +718,8 @@ namespace DataAccessLayer.Migrations
                     b.HasOne("CoreLayer.Entities.Manager", null)
                         .WithMany("Personnels")
                         .HasForeignKey("ManagerId");
+
+                    b.Navigation("Company");
 
                     b.Navigation("Department");
                 });

@@ -75,9 +75,10 @@ namespace DataAccessLayer.Repositories
 
         public List<T> GetListAll(Expression<Func<T, bool>> filter)
         {
-
             return _dbContext.Set<T>().Where(filter).ToList();
         }
+
+        
 
         public bool Insert(T t)
         {

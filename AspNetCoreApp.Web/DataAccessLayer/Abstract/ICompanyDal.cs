@@ -9,6 +9,6 @@ namespace DataAccessLayer.Abstract
 {
     public interface ICompanyDal : IGENERICDAL<Company>
     {
-
+        Company GetAllPersonelsWithCompany(int id);
     }
 }

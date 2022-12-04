@@ -38,5 +38,10 @@ namespace DataAccessLayer.EntityFramework
             approved.Approval = Approval.Reddedildi;
             return Update(approved);
         }
+
+        public List<Permit> GetAllPermitWithPersonnel()
+        {
+            return _dbContext.Permits.Include(a => a.Personnel).ToList();
+        }
     }
 }

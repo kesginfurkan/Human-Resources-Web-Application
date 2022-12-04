@@ -23,7 +23,7 @@ namespace DataAccessLayer.EntityFramework
 
         public List<Advance> GetListAllAdvance(string id)
         {
-            return _dbContext.Advances.Include(x => x.Personnel).Where(a=>a.PersonnelID == id).ToList();
+            return _dbContext.Advances.Include(x => x.Personnel).Where(a => a.PersonnelID == id).ToList();
         }
 
         public bool Approved(int id)
@@ -38,5 +38,16 @@ namespace DataAccessLayer.EntityFramework
             approved.Approval = Approval.Reddedildi;
             return Update(approved);
         }
+
+        public decimal SumAdvance(string id)
+        {
+            return _dbContext.Advances.Where(x => x.PersonnelID == id && x.Currency == Currency.TL && (x.Approval == Approval.Onaylandı || x.Approval == Approval.OnayBekliyor)).Sum(x => x.AdvanceAmount);
+        }
+
+        public List<Advance> GetAllAdvanceWithPersonnel()
+        {
+            return _dbContext.Advances.Include(a => a.Personnel).ToList();
+        }
+       
     }
 }

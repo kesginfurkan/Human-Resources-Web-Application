@@ -18,6 +18,11 @@ namespace BusinessLayer.Concrete
             _companyDal = companyDal;
         }
 
+        public Company GetAllPersonelsWithCompany(int id)
+        {
+            return _companyDal.GetAllPersonelsWithCompany(id);
+        }
+
         public List<Company> GetListAllCompanies()
         {
             return _companyDal.GetListAll();

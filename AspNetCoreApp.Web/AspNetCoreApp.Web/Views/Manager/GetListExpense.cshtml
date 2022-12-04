@@ -41,7 +41,7 @@
                                         Gider Numarası
                                     </th>
                                     <th>
-                                        Personel ID
+                                       İsim Soyisim
                                     </th>
                                     <th>
                                         Harcama Tutarı
@@ -75,7 +75,7 @@
                                             @Html.DisplayFor(modelItem => item.ID)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.PersonnelID)
+                                            @Html.DisplayFor(modelItem => item.personnel.Name)  @Html.DisplayFor(modelItem => item.personnel.Surname)
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.ExpenseAmount)  @Html.DisplayFor(modelItem => item.Currency)

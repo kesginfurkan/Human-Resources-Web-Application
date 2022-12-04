@@ -13,6 +13,8 @@ namespace BusinessLayer.Abstract
 
         bool Approved(int id);
         bool Rejected(int id);
+        decimal SumAdvance(string id);
 
+        List<Advance> GetAllAdvanceWithPersonnel();
     }
 }

@@ -25,7 +25,7 @@ namespace CoreLayer.Entities
         [DataType(DataType.Date)]
         public DateTime EndDate { get; set; } = DateTime.Now.AddDays(1);
 
-        [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = false)]
+        
         [DataType(DataType.Date)]
         public DateTime RequestDate { get; set; }
 

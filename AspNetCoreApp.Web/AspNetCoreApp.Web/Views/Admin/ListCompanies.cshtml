@@ -78,6 +78,7 @@
                                         <th scope="col" class="sort" data-sort="name"> Şirket Maili </th>
                                         <th scope="col" class="sort" data-sort="budget"> Şirket Adresi </th>
                                         <th scope="col" class="sort" data-sort="status"> Şirket Türü </th>
+                                        <th scope="col" class="sort" data-sort="status">İşlemler</th>
 
 
 
@@ -87,54 +88,70 @@
 
                                     @foreach (var item in Model)
                                     {
-                                        <tr>
+                                    <tr>
+                                        <th scope="row">
+                                            <div class="media align-items-center">
+
+                                                <div class="media-body">
+                                                    <span class="name mb-0 text-sm">
+                                                        @item.Name
+                                                        @if (item.Name != null)
+                                                        {
+
+                                                        }&nbsp;
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </th>
+
+                                        <th scope="row">
+                                            <div class="media align-items-center">
+
+                                                <div class="media-body">
+                                                    <span class="name mb-0 text-sm">
+                                                        @item.Mail
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <th scope="row">
+                                            <div class="media align-items-center">
+
+                                                <div class="media-body">
+                                                    <span class="name mb-0 text-sm"> @item.Address </span>
+                                                </div>
+                                            </div>
+                                        </th>
+
+                                        @if (item.CompanyType == CompanyType.LimitedSirket)
+                                        {
                                             <th scope="row">
                                                 <div class="media align-items-center">
 
                                                     <div class="media-body">
-                                                        <span class="name mb-0 text-sm">
-                                                            @item.Name
-                                                            @if (item.Name != null)
-                                                            {
-                                                                
-                                                            }&nbsp;
-                                                        </span>
+                                                        <span class="name mb-0 text-sm"> Limited Şirketi</span>
                                                     </div>
                                                 </div>
                                             </th>
-
+                                        }
+                                        @if (item.CompanyType == CompanyType.AnonimSirket)
+                                        {
                                             <th scope="row">
                                                 <div class="media align-items-center">
 
                                                     <div class="media-body">
-                                                        <span class="name mb-0 text-sm">
-                                                            @item.Mail
-                                                        </span>
+                                                        <span class="name mb-0 text-sm"> Anonim Şirketi</span>
                                                     </div>
                                                 </div>
                                             </th>
-                                            <th scope="row">
-                                                <div class="media align-items-center">
+                                        }
 
-                                                    <div class="media-body">
-                                                        <span class="name mb-0 text-sm"> @item.Address </span>
-                                                    </div>
-                                                </div>
-                                            </th>
 
-                                            <th scope="row">
-                                                <div class="media align-items-center">
+                                        <td>
+                                            <a asp-action="CreateManager" asp-controller="Admin" asp-route-id="@item.ID" class="btn btn-primary">Yönetici Ekle</a>
+                                        </td>
 
-                                                    <div class="media-body">
-                                                        <span class="name mb-0 text-sm"> @item.CompanyType</span>
-                                                    </div>
-                                                </div>
-                                            </th>
-                                             <td>
-                                                <a asp-action="CreateManager" asp-controller="Admin" asp-route-id="@item.ID" class="btn btn-primary">Yönetici Ekle</a>
-                                            </td>
-                                             
-                                        </tr>
+                                    </tr>
 
                                     }
 

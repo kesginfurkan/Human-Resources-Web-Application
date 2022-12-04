@@ -20,16 +20,21 @@ namespace AspNetCoreApp.Web.Controllers
     {
         private readonly UserManager<Personnel> userManager;
         private readonly IGenericService<Personnel> personnelService;
-        private readonly IPersonnelService personnelManager;
         private readonly IGenericService<Department> departmentService;
         private readonly IPasswordHasher<Personnel> passwordHasher;
+        private readonly IPersonnelService personnelManager;
+
         private readonly IGenericService<Advance> advanceService;
+        private readonly IAdvanceService advanceManager;
+
         private readonly IGenericService<Permit> permitService;
-        private readonly IPermitService _permitService;
+        private readonly IPermitService permitManager;
+
         private readonly IGenericService<Expense> expenseService;
+        private readonly IExpenseService expenseManager;
 
 
-        public ManagerController(UserManager<Personnel> userManager, IGenericService<Personnel> personnelService, IPersonnelService personnelManager, IGenericService<Department> departmentService, IPasswordHasher<Personnel> passwordHasher, IGenericService<Advance> advanceService, IPermitService permitService, IGenericService<Expense> expenseService, IGenericService<Permit> permitService1)
+        public ManagerController(UserManager<Personnel> userManager, IGenericService<Personnel> personnelService, IPersonnelService personnelManager, IGenericService<Department> departmentService, IPasswordHasher<Personnel> passwordHasher, IGenericService<Advance> advanceService, IGenericService<Expense> expenseService, IGenericService<Permit> permitService1, IAdvanceService advanceManager, IPermitService permitManager, IExpenseService expenseManager)
         {
             this.userManager = userManager;
             this.personnelService = personnelService;
@@ -37,9 +42,12 @@ namespace AspNetCoreApp.Web.Controllers
             this.departmentService = departmentService;
             this.passwordHasher = passwordHasher;
             this.advanceService = advanceService;
-            _permitService = permitService;
+
             this.permitService = permitService1;
             this.expenseService = expenseService;
+            this.advanceManager = advanceManager;
+            this.permitManager = permitManager;
+            this.expenseManager = expenseManager;
         }
         public IActionResult Index(int page = 1)
         {
@@ -51,22 +59,23 @@ namespace AspNetCoreApp.Web.Controllers
         {
             if (string.IsNullOrEmpty(name) && string.IsNullOrEmpty(surname))
             {
-                PagedList<Personnel> personnels = (PagedList<Personnel>)personnelManager.GetAllPersonelsWithDepartment().ToPagedList(page, 4);
+                PagedList<Personnel> personnels = (PagedList<Personnel>)personnelManager.GetAllPersonelsWithDepartment().ToPagedList(page, 6);
+
                 return View(personnels);
             }
             if (name != null)
             {
-                PagedList<Personnel> personnels = (PagedList<Personnel>)personnelManager.GetAllPersonelsWithDepartmentFilter(a => a.Name == name).ToPagedList(page, 4);
+                PagedList<Personnel> personnels = (PagedList<Personnel>)personnelManager.GetAllPersonelsWithDepartmentFilter(a => a.Name == name).ToPagedList(page, 6);
                 return View(personnels);
             }
             if (name != null && surname != null)
             {
-                PagedList<Personnel> personnels = (PagedList<Personnel>)personnelManager.GetAllPersonelsWithDepartmentFilter(a => a.Name == name && a.Surname == surname).ToPagedList(page, 4);
+                PagedList<Personnel> personnels = (PagedList<Personnel>)personnelManager.GetAllPersonelsWithDepartmentFilter(a => a.Name == name && a.Surname == surname).ToPagedList(page, 6);
                 return View(personnels);
             }
             if (surname != null)
             {
-                PagedList<Personnel> personnels = (PagedList<Personnel>)personnelManager.GetAllPersonelsWithDepartmentFilter(a => a.Surname == surname).ToPagedList(page, 4);
+                PagedList<Personnel> personnels = (PagedList<Personnel>)personnelManager.GetAllPersonelsWithDepartmentFilter(a => a.Surname == surname).ToPagedList(page, 6);
                 return View(personnels);
             }
             return View(null);
@@ -86,7 +95,7 @@ namespace AspNetCoreApp.Web.Controllers
             {
                 Personnel personnel = new Personnel();
 
-                personnel.Email = userSignUp.Name.ToLower() + "." + userSignUp.Surname.ToLower() + "@bilgeadamboost.com";
+                personnel.Email = userSignUp.Name.ToLower() + userSignUp.MiddleName.ToLower() + "." + userSignUp.Surname.ToLower() + "@bilgeadamboost.com";
                 personnel.Name = userSignUp.Name;
                 personnel.Surname = userSignUp.Surname;
                 personnel.SecondSurname = userSignUp.SecondSurname;
@@ -102,26 +111,25 @@ namespace AspNetCoreApp.Web.Controllers
                 personnel.Gender = userSignUp.Gender;
                 personnel.UserName = personnel.Email;
                 personnel.PlaceOfBirth = userSignUp.PlaceOfBirth;
+                personnel.Salary = userSignUp.Salary;
+
+                if (personnel.Gender == CoreLayer.Enums.Gender.Male)
+                {
+                    personnel.ImagePath = "man_default.png";
+                }
+                if (personnel.Gender == CoreLayer.Enums.Gender.Female)
+                {
+                    personnel.ImagePath = "woman_default.png";
+                }
+
 
                 string Role = "Personel";
 
                 Guid guid = Guid.NewGuid();
                 string newPassword = guid.ToString().Substring(0, 8);
-                SmtpClient client = new SmtpClient();
-                client.Credentials = new NetworkCredential("john1996doe1996@gmail.com", "saodzpcotcmhunho");
-                client.Port = 587;
-                client.Host = "smtp.gmail.com";
-                client.EnableSsl = true;
 
-                MailMessage mail = new MailMessage();
-                mail.To.Add(personnel.Email);
-                mail.From = new MailAddress("john1996doe1996@gmail.com", "Yeni Şifre");
-                mail.IsBodyHtml = true;
-                mail.Subject = "Yeni Şifre";
+                
 
-                mail.Body += "Merhaba Sayın " + personnel.Name + " " + personnel.Surname + "<br/> Kullanici Adiniz = " + personnel.Email + "<br/> Sifreniz: " + newPassword + "<br/>Giriş Yapmak için tıklayınız:" + "https://aspnetcoreappweb20221113160658.azurewebsites.net/";
-
-                client.Send(mail);
 
 
                 var result = await userManager.CreateAsync(personnel, newPassword);
@@ -129,12 +137,36 @@ namespace AspNetCoreApp.Web.Controllers
 
                 if (result.Succeeded)
                 {
-                    //personnel.PasswordHash = passwordHasher.HashPassword(personnel, userSignUp.Personnel.PasswordHash);
-                    //IdentityResult Iresult = await userManager.UpdateAsync(personnel);
-                    IdentityResult rslt = await userManager.AddToRoleAsync(personnel, Role);
-                    return RedirectToAction("Index", "Manager");
+                    if (personnel.BirthDate < DateTime.Now)
+                    {
+                        //personnel.PasswordHash = passwordHasher.HashPassword(personnel, userSignUp.Personnel.PasswordHash);
+                        //IdentityResult Iresult = await userManager.UpdateAsync(personnel);
 
+                        SmtpClient client = new SmtpClient();
+                        client.Credentials = new NetworkCredential("john1996doe1996@gmail.com", "saodzpcotcmhunho");
+                        client.Port = 587;
+                        client.Host = "smtp.gmail.com";
+                        client.EnableSsl = true;
 
+                        MailMessage mail = new MailMessage();
+                        mail.To.Add(personnel.Email);
+                        mail.From = new MailAddress("john1996doe1996@gmail.com", "Yeni Şifre");
+                        mail.IsBodyHtml = true;
+                        mail.Subject = "Easy Hr İnsan Kaynakları Yeni Şifre";
+
+                        mail.Body += "Merhaba Sayın " + personnel.Name + " " + personnel.Surname + "<br/> Kullanici Adiniz = " + personnel.Email + "<br/> Sifreniz: " + newPassword + "<br/>Giriş Yapmak için tıklayınız:" + "https://aspnetcoreappweb20221113160658.azurewebsites.net/";
+
+                        client.Send(mail);
+
+                        IdentityResult rslt = await userManager.AddToRoleAsync(personnel, Role);
+                        return RedirectToAction("Index", "Manager");
+                    }
+                    else
+                    {
+                        ViewBag.Message = "Doğum tarihi bugün yada bugünden sonra olamaz.";
+                        userSignUp.Departments = departmentService.GetListAll();
+                        return View(userSignUp);
+                    }
                 }
                 else
                 {
@@ -142,8 +174,6 @@ namespace AspNetCoreApp.Web.Controllers
                     userSignUp.Departments = departmentService.GetListAll();
                     return View(userSignUp);
                 }
-
-
             }
             else
             {
@@ -152,10 +182,11 @@ namespace AspNetCoreApp.Web.Controllers
                 return View(userSignUp);
             }
         }
+
         //////////////     ADVANCE
         public IActionResult GetListAdvance()
         {
-            List<Advance> advances = advanceService.GetListAll();
+            List<Advance> advances = advanceManager.GetAllAdvanceWithPersonnel();
             return View(advances);
         }
 
@@ -190,7 +221,7 @@ namespace AspNetCoreApp.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult RefusalAdvance(Advance advanceVM,int id)
+        public IActionResult RefusalAdvance(Advance advanceVM, int id)
         {
             Advance advance = advanceService.GetById(id);
             advance.Approval = CoreLayer.Enums.Approval.Reddedildi;
@@ -205,7 +236,7 @@ namespace AspNetCoreApp.Web.Controllers
         //////////////     PERMIT
         public IActionResult GetListPermit()
         {
-            List<Permit> permit = permitService.GetListAll();
+            List<Permit> permit = permitManager.GetAllPermitWithPersonnel();
             return View(permit);
         }
 
@@ -256,12 +287,15 @@ namespace AspNetCoreApp.Web.Controllers
         public IActionResult GetListExpense()
         {
 
-            List<Expense> expenses = expenseService.GetListAll();
+            List<Expense> expenses = expenseManager.GetAllExpenseWithPersonnel();
             return View(expenses);
         }
 
-        public IActionResult DetailsExpense(int id)
+        public async Task<IActionResult> DetailsExpense(int id)
         {
+            Personnel personnel = await userManager.GetUserAsync(HttpContext.User);
+            TempData["Invoce"] = personnel.ImagePath;
+
             Expense expense = expenseService.GetById(id);
             return View(expense);
         }

@@ -35,6 +35,14 @@ namespace BusinessLayer.Concrete
             return _advanceDal.GetListAllAdvance(id);
         }
 
-        
+        public decimal SumAdvance(string id)
+        {
+            return _advanceDal.SumAdvance(id);
+        }
+
+        public List<Advance> GetAllAdvanceWithPersonnel()
+        {
+            return _advanceDal.GetAllAdvanceWithPersonnel();
+        }
     }
 }

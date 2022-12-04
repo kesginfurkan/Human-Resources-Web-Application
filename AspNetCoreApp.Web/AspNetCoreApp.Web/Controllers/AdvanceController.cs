@@ -21,6 +21,7 @@ namespace AspNetCoreApp.Web.Controllers
         private readonly UserManager<Personnel> userManager;
         private readonly IAdvanceService advanceManager;
 
+
         public AdvanceController(IGenericService<Advance> advanceService, IGenericService<Personnel> personnelService, UserManager<Personnel> userManager, IAdvanceService advanceManager)
         {
             _advanceService = advanceService;
@@ -46,12 +47,17 @@ namespace AspNetCoreApp.Web.Controllers
 
             PersonnelAdvanceVM vm = new PersonnelAdvanceVM();
             vm.Advance = new Advance();
-
+            var sumAdvance = advanceManager.SumAdvance(personnel.Id);
+            decimal? dif = personnel.Salary - sumAdvance;
+            ViewBag.sumAdvance = sumAdvance;
+            ViewBag.difAdvance = dif;
             vm.Personnels = _personnelService.GetListAll();
             return View(vm);
 
-            
+
         }
+
+
 
         [HttpPost]
         public async Task<IActionResult> Add(PersonnelAdvanceVM vm)
@@ -70,10 +76,28 @@ namespace AspNetCoreApp.Web.Controllers
                 };
                 newAdvance.PersonnelID = personnel.Id;
 
-                _advanceService.Insert(newAdvance);
-                return RedirectToAction("Index");
+
+                var sumAdvance = advanceManager.SumAdvance(personnel.Id);
+                decimal? dif = personnel.Salary - sumAdvance;
+                ViewBag.sumAdvance = sumAdvance;
+                ViewBag.difAdvance = dif;
+
+                if (vm.Advance.AdvanceAmount <= dif)
+                {
+                    _advanceService.Insert(newAdvance);
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ViewBag.Message = " Bu yıl ki toplam Avans Miktarı, Toplam Maaşı geçmiştir";
+                    vm.Personnels = _personnelService.GetListAll();
+                    return View(vm);
+                }
+
+
+
             }
-            
+
             else
             {
                 ViewBag.Message = "Avans eklenemedi";
@@ -144,7 +168,7 @@ namespace AspNetCoreApp.Web.Controllers
                 ViewBag.Message = "Sadece onay bekleyen avans silinebilir!";
                 return View(advance);
             }
-            
+
         }
     }
 

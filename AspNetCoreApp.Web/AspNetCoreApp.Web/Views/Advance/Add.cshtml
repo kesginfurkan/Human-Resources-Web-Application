@@ -38,11 +38,26 @@
                 <div class="card">
                     <!-- Card header -->
                     <div class="card-header border-0">
-                        <h3 class="text-muted mb-2 ml-4">Avans Ekleme Sayfası</h3>
+                        <h3 class="text-muted mb-2 ml-4">Avans Ekleme Sayfası  </h3>
                     </div>
                     <!-- Light table -->
                     <div class="card-body border-0">
                         <form asp-action="Add" asp-controller="Advance" method="post" class="">
+
+                            <div class="pl-lg-4">
+                                <div class="form-group">
+                                    <label class="form-control-label">Şuana kadar yaptığınız Avanslar Toplamı:</label>
+                                    <span asp-validation-for="@Model.Advance.AdvanceAmount" class="text-danger">@ViewBag.sumAdvance</span>
+                                </div>
+                            </div>
+
+                            <div class="pl-lg-4">
+                                <div class="form-group">
+                                    <label class="form-control-label">Talep edebileceğiniz Avans miktarı:</label>
+                                    <span asp-validation-for="@Model.Advance.AdvanceAmount" class="text-danger">@ViewBag.difAdvance</span>
+                                </div>
+                            </div>
+
 
                             <div class="pl-lg-4">
                                 <div class="form-group">

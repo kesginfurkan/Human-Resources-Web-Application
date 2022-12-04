@@ -17,7 +17,6 @@ namespace DataAccessLayer.Mappings
 
             builder.Property(x => x.ID).IsRequired();
             builder.Property(x => x.Name).IsUnicode(true).HasMaxLength(100).IsRequired();
-            builder.Property(x => x.PhoneNumber).IsRequired();
             builder.Property(x => x.Address).IsUnicode(true).HasMaxLength(250);
             builder.Property(x => x.Mail).IsRequired();
             builder.Property(x => x.PersonnelAmount).IsRequired();

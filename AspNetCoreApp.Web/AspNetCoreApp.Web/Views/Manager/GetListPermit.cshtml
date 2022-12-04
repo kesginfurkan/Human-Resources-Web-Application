@@ -43,7 +43,7 @@
                                         İzin Numarası
                                     </th>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.PersonnelID)
+                                       İsim Soyisim
                                     </th>
                                     <th>
                                         Tarih Aralıkları
@@ -76,7 +76,7 @@
                                             @Html.DisplayFor(modelItem => item.ID)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.PersonnelID)
+                                            @Html.DisplayFor(modelItem => item.Personnel.Name)  @Html.DisplayFor(modelItem => item.Personnel.Surname)
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.StartDate) -  @Html.DisplayFor(modelItem => item.EndDate)

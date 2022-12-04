@@ -38,5 +38,9 @@ namespace DataAccessLayer.EntityFramework
             approved.Approval = Approval.Reddedildi;
             return Update(approved);
         }
+        public List<Expense> GetAllExpenseWithPersonnel()
+        {
+            return dbContext.Expenses.Include(a => a.personnel).ToList();
+        }
     }
 }

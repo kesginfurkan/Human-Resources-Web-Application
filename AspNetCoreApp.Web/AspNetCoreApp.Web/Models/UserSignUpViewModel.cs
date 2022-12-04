@@ -14,6 +14,7 @@ namespace AspNetCoreApp.Web.Models
         [Display(Name = "Ad")]
         [Required(ErrorMessage = "(Lütfen adınızı giriniz!)"), MinLength(2, ErrorMessage = "(Ad 2 karakterden az olamaz)")]
         public string Name { get; set; }
+
         [Display(Name = "Soyad")]
         [Required(ErrorMessage = "(Lütfen soyadınızı giriniz!)"), MinLength(2, ErrorMessage = "(Soyad 2 karakterden az olamaz)")]
         public string Surname { get; set; }
@@ -39,27 +40,36 @@ namespace AspNetCoreApp.Web.Models
         [Required(ErrorMessage = "(Doğum Yeri girişi zorunludur!)")]
         [Display(Name = "Doğum Yeri")]
         public string PlaceOfBirth { get; set; }
+
         [Required(ErrorMessage = "(İşe Giriş Tarihi zorunludur!)")]
         [Display(Name = "İşe Giriş Tarihi")]
         public DateTime HireDate { get; set; }
+
         public DateTime ReleaseDate { get; set; }
 
         [Display(Name = "Telefon Numarası")]
         public string PhoneNumber { get; set; }
+
         [Required(ErrorMessage = "(Meslek girişi zorunludur!)")]
         [Display(Name = "Meslek")]
         public string Job { get; set; }
+
         [Display(Name = "Adres")]
         [Required(ErrorMessage = "(Adres girişi zorunludur!)")]
         public string Address { get; set; }
 
-        
-       
+        public decimal Salary { get; set; }
+
+
+
         public bool? IsActive { get; set; }
+
         [Display(Name = "Cinsiyet")]
         public Gender Gender { get; set; }
+
         [Display(Name = "Departman Türü")]
         public int DepartmentID { get; set; }
+
         public List<Department>Departments { get; set; }
 
         public int CompanyID { get; set; }

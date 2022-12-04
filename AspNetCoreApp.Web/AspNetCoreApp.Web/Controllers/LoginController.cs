@@ -14,6 +14,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace AspNetCoreApp.Web.Controllers
 {
@@ -39,11 +40,14 @@ namespace AspNetCoreApp.Web.Controllers
         {
             return View();
         }
-        
+
         
         [HttpPost]
         public async Task<IActionResult> Index(UserSignInViewModel userSign)
         {
+
+           
+
             if (ModelState.IsValid)
             {
 
@@ -63,13 +67,13 @@ namespace AspNetCoreApp.Web.Controllers
                     }
                     else
                     {
-                        ViewBag.Message = "Kayıtlı Kullanıcı bulunamadı";
+                        ViewBag.Message = "Kullanıcı Adı veya Şifre hatalı";
                         return View(userSign);
                     }
                 }
                 else
                 {
-                    ViewBag.Message = "Kayıtlı Kullanıcı bulunamadı";
+                    ViewBag.Message = "Kullanıcı Adı veya Şifre hatalı";
                     return View(userSign);
                 }
             }
@@ -88,6 +92,7 @@ namespace AspNetCoreApp.Web.Controllers
             return View();
         }
         //Context db = new Context();
+
         [HttpPost]
         public async Task<IActionResult> ForgetPassword(PasswordVM passwordVM)
         {

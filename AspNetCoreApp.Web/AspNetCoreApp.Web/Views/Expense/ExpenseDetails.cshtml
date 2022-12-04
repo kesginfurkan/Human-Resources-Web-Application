@@ -61,6 +61,10 @@
                                 <div class="col-lg-3 col-md-6 label mb-1">Onay Durumu</div>
                                 <div class="col-lg-3 col-md-6"> @Html.DisplayFor(model => model.Approval)</div>
                             </div>
+                            <div class="row mb-1">
+                                <div class="col-lg-3 col-md-6 label mb-1">Oluşturma Tarihi</div>
+                                <div class="col-lg-3 col-md-6"> @Html.DisplayFor(model => model.CreationDate)</div>
+                            </div>
                             @if (@Model.Invoce != null)
                             {
                                 <div class="row">
@@ -69,7 +73,7 @@
 
                                     <div class="col-lg-3 col-md-6">
                                         <a href="~/Files/Invoices/@Model.Invoce">
-                                            <img src="~/Files/Invoices/@Model.Invoce" width="100" height="100">
+                                            <img src="~/images/pdf.png" width="50" height="50">
                                         </a>
                                     </div>
                                 </div>
@@ -82,10 +86,7 @@
                                 </div>
                             }
 
-                            <div class="row mb-1">
-                                <div class="col-lg-3 col-md-6 label mb-1">Oluşturma Tarihi</div>
-                                <div class="col-lg-3 col-md-6"> @Html.DisplayFor(model => model.CreationDate)</div>
-                            </div>
+
                             <form asp-controller="Expense" asp-action="ExpenseDetails">
                                 <div class="">
                                     <input type="hidden" asp-for="ID" />

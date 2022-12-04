@@ -30,5 +30,10 @@ namespace BusinessLayer.Concrete
         {
             return expenseRepository.Rejected(id);
         }
+
+        public List<Expense> GetAllExpenseWithPersonnel()
+        {
+            return expenseRepository.GetAllExpenseWithPersonnel();
+        }
     }
 }

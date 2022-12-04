@@ -12,5 +12,6 @@ namespace DataAccessLayer.Abstract
         List<Expense> GetListAllExpense(string id);
         bool Approved(int id);
         bool Rejected(int id);
+        List<Expense> GetAllExpenseWithPersonnel();
     }
 }

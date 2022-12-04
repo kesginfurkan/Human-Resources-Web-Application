@@ -12,5 +12,6 @@ namespace DataAccessLayer.Abstract
         List<Permit> GetListAllPermit(string id);
         bool Approved(int id);
         bool Rejected(int id);
+        List<Permit> GetAllPermitWithPersonnel();
     }
 }

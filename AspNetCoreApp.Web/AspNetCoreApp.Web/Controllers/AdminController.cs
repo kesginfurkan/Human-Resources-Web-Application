@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
@@ -60,7 +61,7 @@ namespace AspNetCoreApp.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddCompany(CompanyVM companyVM)
+        public async Task<IActionResult> AddCompany(CompanyVM companyVM)
         {
             if (ModelState.IsValid)
             {
@@ -72,9 +73,19 @@ namespace AspNetCoreApp.Web.Controllers
                 companyVM.Name = companyVM.Name.ToLower();
                 company.Mail = "info@" + companyVM.Name + ".com";
                 company.PhoneNumber = companyVM.PhoneNumber;
-                company.LogoPath = companyVM.LogoPath;
                 company.CompanyType = companyVM.CompanyType;
                 company.Address = companyVM.Address;
+
+                if (companyVM.LogoPath != null)
+                {
+                    var imageExtension = Path.GetExtension(companyVM.LogoPath.FileName);
+                    var newImageName = Guid.NewGuid() + imageExtension;
+                    var location = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Logo/", newImageName);
+                    var stream = new FileStream(location, FileMode.Create);
+                    await companyVM.LogoPath.CopyToAsync(stream);
+
+                    company.LogoPath = newImageName;
+                }
 
                 companyService.Insert(company);
                 return RedirectToAction("ListCompanies");
@@ -133,11 +144,13 @@ namespace AspNetCoreApp.Web.Controllers
 
                 MailMessage mail = new MailMessage();
                 mail.To.Add(personnel.Email);
-                mail.From = new MailAddress("john1996doe1996@gmail.com", "Sifre Yenileme");
+                mail.From = new MailAddress("john1996doe1996@gmail.com", "Yeni Şifre");
                 mail.IsBodyHtml = true;
-                mail.Subject = "Sifre Sifirlama";
+                mail.Subject = "Yeni Şifre";
 
-                mail.Body += "Merhaba Sayin " + personnel.Name + " " + personnel.Surname + "<br/> Kullanici Adiniz = " + personnel.Email + "<br/> Sifreniz: " + newPassword + "<br/>Giriş Yapmak için tıklayınız:" + "https://localhost:44324/";
+                mail.Body += "Merhaba Sayın " + personnel.Name + " " + personnel.Surname + "<br/> Kullanıcı Adınız = " + personnel.Email + "<br/> Şifreniz: " + newPassword + "<br/>Giriş Yapmak için tıklayınız:" + "https://aspnetcoreappweb20221113160658.azurewebsites.net/";
+                
+
 
                 client.Send(mail);
 
@@ -150,8 +163,6 @@ namespace AspNetCoreApp.Web.Controllers
 
                     IdentityResult rslt = await userManager.AddToRoleAsync(personnel, Role);
                     return RedirectToAction("Index", "Admin");
-
-
                 }
                 else
                 {
@@ -159,7 +170,6 @@ namespace AspNetCoreApp.Web.Controllers
                     userSignUp.Departments = departmentService.GetListAll();
                     return View(userSignUp);
                 }
-
 
             }
             else

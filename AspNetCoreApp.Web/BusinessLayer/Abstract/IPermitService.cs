@@ -13,5 +13,6 @@ namespace BusinessLayer.Abstract
         List<Permit> GetListAllPermit();
         bool Approved(int id);
         bool Rejected(int id);
+        List<Permit> GetAllPermitWithPersonnel();
     }
 }

@@ -38,5 +38,10 @@ namespace BusinessLayer.Concrete
         {
             return _permitDal.GetListAll();
         }
+
+        public List<Permit> GetAllPermitWithPersonnel()
+        {
+            return _permitDal.GetAllPermitWithPersonnel();
+        }
     }
 }
